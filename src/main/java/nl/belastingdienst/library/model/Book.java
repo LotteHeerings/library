@@ -9,6 +9,7 @@ public class Book {
     private String publisher;
     private Date publication_date;
     private String language;
+    private String cover_path;
 
     public long getISBN() {
         return ISBN;
@@ -56,5 +57,13 @@ public class Book {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getCover_path() {
+        return cover_path;
+    }
+
+    public void setCover_path(String cover_path) {
+        this.cover_path = cover_path;
     }
 }

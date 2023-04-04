@@ -24,6 +24,7 @@ public class BookController {
         testBook1.setTitle("Testing is fun");
         testBook1.setPublication_date(new Date());
         testBook1.setPublisher("Your mom");
+        testBook1.setCover_path("/user/user/user");
 
         books.add(testBook1);
         return books;
