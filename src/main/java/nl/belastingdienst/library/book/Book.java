@@ -1,4 +1,4 @@
-package nl.belastingdienst.library.model;
+package nl.belastingdienst.library.book;
 
 import java.util.Date;
 

@@ -1,6 +1,5 @@
-package nl.belastingdienst.library.controller;
+package nl.belastingdienst.library.book;
 
-import nl.belastingdienst.library.model.Book;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
