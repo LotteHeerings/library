@@ -19,16 +19,20 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     // Allows a user to register, save it to the database and return the token
-    public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
-                .email(request.getEmail())
-                .name(request.getName())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .user_role(Role.USER)
-                .build();
-        repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+    public AuthenticationResponse register(RegisterRequest request) throws Exception {
+        if (repository.findByEmail(request.getEmail()) != null) {
+            throw new Exception("Email address is already taken.");
+        } else {
+            var user = User.builder()
+                    .email(request.getEmail())
+                    .name(request.getName())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .user_role(Role.USER)
+                    .build();
+            repository.save(user);
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder().token(jwtToken).build();
+        }
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
