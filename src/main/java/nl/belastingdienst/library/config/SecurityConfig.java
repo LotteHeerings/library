@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**") //whitelisted endpoints that need no security
+                .requestMatchers("/api/auth/**") //whitelisted endpoints that need no security
                 .permitAll()
                 .anyRequest()
                 .authenticated() //the rest is secured
