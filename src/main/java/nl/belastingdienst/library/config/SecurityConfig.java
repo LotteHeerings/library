@@ -1,6 +1,7 @@
 package nl.belastingdienst.library.config;
 
 import lombok.RequiredArgsConstructor;
+import nl.belastingdienst.library.user.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,13 +21,12 @@ public class SecurityConfig {
     @Bean // 1.29
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
+                .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**") //whitelisted endpoints that need no security
-                .permitAll()
-                .anyRequest()
-                .authenticated() //the rest is secured
+                .requestMatchers("/api/auth/**").permitAll() //whitelisted endpoints that need no security
+                .requestMatchers("/api/emp/**").hasAnyRole(Role.EMPLOYEE.name(), Role.ADMIN.name()) // .name cuz of String
+                .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name()) // change to admin
+                .anyRequest().authenticated() //the rest is secured
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
