@@ -28,7 +28,7 @@ public class UserServiceTest {
     private UserService userService = new UserService(userRepository, passwordEncoder);
 
     @Test
-    public void testCreateUser() {
+    public void testCreateUser() throws Exception {
         // Create a new user to save
         user.setEmail("testing@email.com");
         user.setName("testing name");
