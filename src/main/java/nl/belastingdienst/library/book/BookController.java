@@ -13,7 +13,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/employee/books")
-    public Book createBook(@RequestBody Book book) throws Exception{
+    public Book createBook(@RequestBody BookDto book) throws Exception{
         return bookService.createBook(book);
     }
 
@@ -38,12 +38,12 @@ public class BookController {
     }
 
     @DeleteMapping("/employee/books/{isbn13}")
-    public void deleteBooks(@PathVariable(name = "isbn13") Long ISBN13) {
+    public void deleteBooks(@PathVariable(name = "isbn13") String ISBN13) {
         bookService.deleteBook(ISBN13);
     }
 
     @PutMapping("/employee/books/{isbn13}")
-    public Book updateBook(@PathVariable(name = "isbn13") Long ISBN13, @RequestBody Book bookDetails) throws Exception {
+    public Book updateBook(@PathVariable(name = "isbn13") String ISBN13, @RequestBody BookDto bookDetails) throws Exception {
         return bookService.updateBook(ISBN13, bookDetails);
     }
 }

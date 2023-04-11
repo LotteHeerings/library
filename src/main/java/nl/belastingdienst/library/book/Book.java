@@ -18,7 +18,7 @@ import java.sql.Date;
 public class Book {
     @Id
     @Column(name = "ISBN13", nullable = false, unique = true)
-    private Long ISBN13;
+    private String ISBN13;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -37,4 +37,7 @@ public class Book {
 
     @Column(name = "publication_date", nullable = false)
     private String publication_date;
+
+    @Column(name = "pages")
+    private Integer pages;
 }

@@ -12,13 +12,25 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public Book createBook(Book book) throws Exception{
-        if (book.getISBN13() == null) {
+    public Book createBook(BookDto newBook) throws Exception{
+        if (newBook.getISBN13() == null) {
             throw new Exception("Id is null");
         }
-        if (bookRepository.existsById(book.getISBN13())) {
+        if (bookRepository.existsById(newBook.getISBN13())) {
             throw new Exception("Book is already registered");
         }
+
+        var book = Book.builder()
+                .ISBN13(newBook.getISBN13())
+                .title(newBook.getTitle())
+                .authors(newBook.getAuthors())
+                .publisher(newBook.getPublisher())
+                .cover_path(newBook.getCover_path())
+                .language(newBook.getLanguage())
+                .publication_date(newBook.getPublication_date())
+                .pages(Integer.valueOf(newBook.getPages()))
+                .build();
+
         return bookRepository.save(book);
     }
 
@@ -28,7 +40,7 @@ public class BookService {
 
     public List<Book> getAllBooksByAuthor(String authors){
         return getAllBooks().stream()
-                .filter(book -> book.getAuthors().contains(authors))
+                .filter(book -> book.getAuthors() != null && book.getAuthors().contains(authors))
                 .collect(Collectors.toList());
     }
 
@@ -40,24 +52,24 @@ public class BookService {
 
     public List<Book> getAllBooksByPublisher(String publisher){
         return getAllBooks().stream()
-                .filter(book -> book.getPublisher().contains(publisher))
+                .filter(book -> book.getPublisher() != null && book.getPublisher().contains(publisher))
                 .collect(Collectors.toList());
     }
 
-    public void deleteBook(Long ISBN13){
+    public void deleteBook(String ISBN13){
         bookRepository.deleteById(ISBN13);
     }
 
-    public Book updateBook (Long ISBN13, Book bookDetails) throws Exception{
+    public Book updateBook (String ISBN13, BookDto bookDetails) throws Exception{
         Book book = bookRepository.findById(ISBN13).orElseThrow(() -> new Exception("Book not found"));
-        book.setAuthors(book.getAuthors());
-        book.setLanguage(book.getLanguage());
-        book.setPublisher(book.getPublisher());
-        book.setTitle(book.getTitle());
-        book.setPublication_date(book.getPublication_date());
+        book.setAuthors(bookDetails.getAuthors());
+        book.setLanguage(bookDetails.getLanguage());
+        book.setPublisher(bookDetails.getPublisher());
+        book.setTitle(bookDetails.getTitle());
+        book.setPublication_date(bookDetails.getPublication_date());
         book.setCover_path(bookDetails.getCover_path());
+        book.setPages(book.getPages());
 
-        bookRepository.deleteById(ISBN13);
         return bookRepository.save(book);
     }
 }

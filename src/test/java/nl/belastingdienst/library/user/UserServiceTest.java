@@ -180,7 +180,7 @@ class UserServiceTest {
         verify(userRepository, never()).save(any(User.class));
         verify(passwordEncoder, never()).encode(anyString());
     }
-    
+
     @Test
     public void testUpdateUser_invalidPasswordSize() throws Exception {
 
