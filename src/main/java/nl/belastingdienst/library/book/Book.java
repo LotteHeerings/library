@@ -1,10 +1,7 @@
 package nl.belastingdienst.library.book;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +17,7 @@ import java.sql.Date;
 @Table(name = "_book")
 public class Book {
     @Id
-    @Column(name = "ISBN-13", nullable = false, unique = true)
+    @Column(name = "ISBN13", nullable = false, unique = true)
     private Long ISBN13;
 
     @Column(name = "title", nullable = false)

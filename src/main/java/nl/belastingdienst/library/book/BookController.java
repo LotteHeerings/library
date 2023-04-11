@@ -1,6 +1,7 @@
 package nl.belastingdienst.library.book;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +14,8 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/employee/books")
-    public Book createBook(@RequestBody Book book) throws Exception{
-        return bookService.createBook(book);
+    public ResponseEntity<Book> createBook(@RequestBody Book book) throws Exception{
+        return ResponseEntity.ok(bookService.createBook(book));
     }
 
     @GetMapping("/books")

@@ -12,10 +12,24 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public Book createBook(Book book) throws Exception{
-        if (bookRepository.existsById(book.getISBN13())) {
-            throw new Exception("Book is already registered");
-        }
+    public Book createBook(Book newBook) throws Exception{
+        //if (newBook.getISBN13() == null) {
+        //    throw new Exception("Id is null");
+        //}
+        //if (bookRepository.existsById(newBook.getISBN13())) {
+        //    throw new Exception("Book is already registered");
+        //}
+        var book = Book.builder()
+                .ISBN13(newBook.getISBN13())
+                .title(newBook.getTitle())
+                .authors(newBook.getAuthors())
+                .publisher(newBook.getPublisher())
+                .cover_path(newBook.getCover_path())
+                .language(newBook.getLanguage())
+                .publication_date(newBook.getPublication_date())
+                .build();
+
+        book.setISBN13(newBook.getISBN13());
         return bookRepository.save(book);
     }
 
@@ -46,10 +60,7 @@ public class BookService {
     }
 
     public Book updateBook (Long ISBN13, Book bookDetails) throws Exception{
-        if (bookRepository.findById(bookDetails.getISBN13()).isPresent()) {
-            throw new Exception("ISBN13 address is already taken.");
-        }
-        Book book = bookRepository.findById(ISBN13).get();
+        Book book = bookRepository.findById(ISBN13).orElseThrow(() -> new Exception("Book not found"));
         book.setAuthors(book.getAuthors());
         book.setLanguage(book.getLanguage());
         book.setPublisher(book.getPublisher());
