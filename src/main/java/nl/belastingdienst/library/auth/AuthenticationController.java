@@ -16,14 +16,14 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register (
-            @RequestBody RegisterRequest request
+            @RequestBody RegisterRequestDto request
     ) throws Exception {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticateRequest (
-            @RequestBody AuthenticationRequest request
+            @RequestBody AuthenticationRequestDto request
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }

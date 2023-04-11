@@ -19,7 +19,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     // Allows a user to register, save it to the database and return the token
-    public AuthenticationResponse register(RegisterRequest request) throws Exception {
+    public AuthenticationResponse register(RegisterRequestDto request) throws Exception {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
             throw new Exception("Email address is already taken.");
         }
@@ -35,7 +35,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequestDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(), request.getPassword()

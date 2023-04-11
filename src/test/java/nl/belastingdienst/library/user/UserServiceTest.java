@@ -108,7 +108,7 @@ class UserServiceTest {
     }
 
     @Test
-    void updateUser() {
+    void updateUser() throws Exception {
         // Create the existing user
         var existingUser =
                 User.builder()
@@ -144,5 +144,24 @@ class UserServiceTest {
         assertEquals(updatedUser.getName(), savedUser.getName());
     }
 
+    @Test
+    public void testUpdateWhenUserNotFound() {
+        // Arrange
+        String email = "nonexistent@example.com";
+        User userDetails = new User();
+        userDetails.setEmail("newemail@example.com");
+        userDetails.setName("New Name");
+        userDetails.setPassword("newpassword");
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.updateUser(email, userDetails);
+        });
+        String expectedMessage = "User with email " + email + " not found";
+        String actualMessage = exception.getMessage();
+        assert(actualMessage.contains(expectedMessage));
+    }
 
 }

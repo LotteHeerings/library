@@ -14,7 +14,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user) throws Exception {
+    public User createUser(@RequestBody UserDto user) throws Exception {
         return userService.createUser(user);
     }
 
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{email}")
-    public User updateUser(@PathVariable(value = "email") String email, @RequestBody User userDetails) {
+    public User updateUser(@PathVariable(value = "email") String email, @RequestBody User userDetails) throws Exception{
         return userService.updateUser(email, userDetails);
     }
 

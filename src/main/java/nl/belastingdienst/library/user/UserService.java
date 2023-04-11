@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 //AuthenticationService is for creating new users without being authenticated or authorized.
 //This UserService is used for all uses outside of that.
@@ -15,10 +16,18 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public User createUser(User user) throws Exception{
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+    public User createUser(UserDto newUser) throws Exception{
+        String email = newUser.getEmail();
+        if (userRepository.findByEmail(email).isPresent()) {
             throw new Exception("Email address is already taken.");
         }
+        var user =
+                User.builder()
+                        .email(newUser.getEmail())
+                        .name(newUser.getName())
+                        .password(passwordEncoder.encode(newUser.getPassword()))
+                        .user_role(Role.valueOf(newUser.getUser_role()))
+                        .build();
         return userRepository.save(user);
     }
 
@@ -30,8 +39,13 @@ public class UserService {
         userRepository.deleteById(email);
     }
 
-    public User updateUser(String email, User userDetails) {
-        User user = userRepository.findByEmail(email).get();
+    public User updateUser(String email, User userDetails) throws Exception {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new Exception("User with email " + email + " not found");
+        }
+
+        User user = userOptional.get();
         user.setEmail(userDetails.getEmail());
         user.setName(userDetails.getName());
         user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
