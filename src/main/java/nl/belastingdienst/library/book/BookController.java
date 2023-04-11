@@ -23,7 +23,7 @@ public class BookController {
     }
 
     @GetMapping("/books/author/{authors}")
-    public List<Book> readBooksByAuthor(@PathVariable(name = "authors") String authors) {
+    public List<Book> readBooksByAuthors(@PathVariable(name = "authors") String authors) {
         return bookService.getAllBooksByAuthor(authors);
     }
 
@@ -38,12 +38,12 @@ public class BookController {
     }
 
     @DeleteMapping("/employee/books/{isbn13}")
-    public void deleteBooks(@PathVariable(name = "isbn13") Integer ISBN13) {
+    public void deleteBooks(@PathVariable(name = "isbn13") Long ISBN13) {
         bookService.deleteBook(ISBN13);
     }
 
     @PutMapping("/employee/books/{isbn13}")
-    public Book updateBook(@PathVariable(name = "isbn13") Integer ISBN13, @RequestBody Book bookDetails) {
+    public Book updateBook(@PathVariable(name = "isbn13") Long ISBN13, @RequestBody Book bookDetails) throws Exception {
         return bookService.updateBook(ISBN13, bookDetails);
     }
 }

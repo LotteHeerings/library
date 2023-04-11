@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,11 +41,14 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteBook(Integer ISBN13){
+    public void deleteBook(Long ISBN13){
         bookRepository.deleteById(ISBN13);
     }
 
-    public Book updateBook (Integer ISBN13, Book bookDetails){
+    public Book updateBook (Long ISBN13, Book bookDetails) throws Exception{
+        if (bookRepository.findById(bookDetails.getISBN13()).isPresent()) {
+            throw new Exception("ISBN13 address is already taken.");
+        }
         Book book = bookRepository.findById(ISBN13).get();
         book.setAuthors(book.getAuthors());
         book.setLanguage(book.getLanguage());

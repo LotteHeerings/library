@@ -24,9 +24,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll() //whitelisted endpoint that need no security
-                .requestMatchers("/api/**").permitAll()
-                //.requestMatchers("/api/emp/**").hasAnyRole(Role.EMPLOYEE.name(), Role.ADMIN.name()) // .name cuz of String
-                //.requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name()) // change to admin
+                .requestMatchers("/api/employee/**").hasAnyRole(Role.EMPLOYEE.name(), Role.ADMIN.name()) // .name cuz of String
+                .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                 .anyRequest().authenticated() //the rest is secured
                 .and()
                 .sessionManagement()
