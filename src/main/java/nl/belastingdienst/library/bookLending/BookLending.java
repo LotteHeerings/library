@@ -18,13 +18,11 @@ import java.time.LocalDate;
 @Table(name = "_book_lending")
 public class BookLending {
     @Id
-    @OneToOne
     @Column(name = "ISBN13")
-    private Book book;
+    private String ISBN13;
 
-    @ManyToOne
     @Column(name = "email")
-    private User user;
+    private String email;
 
     @Column(name = "return_before")
     private LocalDate returnDate;

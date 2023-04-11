@@ -28,4 +28,7 @@ public class BookLendingDto {
     @NotBlank
     private String handOutDate;
 
+    @NotBlank
+    private String weeksOfLending;
+
 }
