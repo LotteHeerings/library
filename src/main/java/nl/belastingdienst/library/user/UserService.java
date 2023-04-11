@@ -23,7 +23,7 @@ public class UserService {
         }
         var user =
                 User.builder()
-                        .email(newUser.getEmail())
+                        .email(email)
                         .name(newUser.getName())
                         .password(passwordEncoder.encode(newUser.getPassword()))
                         .user_role(Role.valueOf(newUser.getUser_role()))
@@ -35,11 +35,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void deleteUser(String email) {
+    public void deleteUser(String email) throws Exception {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new Exception("User with email " + email + " not found");
+        }
         userRepository.deleteById(email);
     }
 
-    public User updateUser(String email, User userDetails) throws Exception {
+    public User updateUser(String email, UserDto userDetails) throws Exception {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isEmpty()) {
             throw new Exception("User with email " + email + " not found");
@@ -49,8 +53,8 @@ public class UserService {
         user.setEmail(userDetails.getEmail());
         user.setName(userDetails.getName());
         user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+        user.setUser_role(Role.valueOf(userDetails.getUser_role()));
 
-        userRepository.deleteById(email);
         return userRepository.save(user);
     }
 

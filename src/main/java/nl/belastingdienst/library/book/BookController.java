@@ -22,9 +22,9 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping("/books/author/{authors}")
-    public List<Book> readBooksByAuthors(@PathVariable(name = "authors") String authors) {
-        return bookService.getAllBooksByAuthor(authors);
+    @GetMapping("/books/author/{author}")
+    public List<Book> readBooksByAuthor(@PathVariable(name = "author") String author) {
+        return bookService.getAllBooksByAuthor(author);
     }
 
     @GetMapping("/books/publisher/{publisher}")

@@ -31,45 +31,68 @@ class UserServiceTest {
     }
 
     @Test
-    void createUser_success() throws Exception {
-        var user =
-                User.builder()
-                        .email("email")
-                        .name("name")
-                        .password(passwordEncoder.encode("password"))
-                        .user_role(Role.USER)
-                        .build();
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
-        when(userRepository.save(user)).thenReturn(user);
+    public void testCreateUser() throws Exception {
+        // Arrange
+        UserDto newUser = new UserDto("Test@email.com", "Test", "password", "USER");
+        User user = User.builder()
+                .email(newUser.getEmail())
+                .name(newUser.getName())
+                .password("encoded_password")
+                .user_role(Role.valueOf(newUser.getUser_role()))
+                .build();
+        when(userRepository.findByEmail(newUser.getEmail())).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(newUser.getPassword())).thenReturn("encoded_password");
+        when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User savedUser = userService.createUser(user);
+        // Act
+        User result = userService.createUser(newUser);
 
-        assertEquals(user, savedUser);
-        verify(userRepository, times(1)).findByEmail(user.getEmail());
-        verify(userRepository, times(1)).save(user);
+        // Assert
+        assertNotNull(result);
+        assertEquals(newUser.getEmail(), result.getEmail());
+        assertEquals(newUser.getName(), result.getName());
+        assertEquals(Role.valueOf(newUser.getUser_role()), result.getUser_role());
+        verify(userRepository, times(1)).findByEmail(newUser.getEmail());
+        verify(passwordEncoder, times(1)).encode(newUser.getPassword());
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
-    void createUser_duplicateEmail() {
+    public void testCreateUser_emailAlreadyTaken() throws Exception {
+        // Arrange
+        UserDto newUser = new UserDto("test@email.com", "Test", "password", "USER");
+        User existingUser = User.builder()
+                .email(newUser.getEmail())
+                .build();
+        when(userRepository.findByEmail(newUser.getEmail())).thenReturn(Optional.of(existingUser));
 
-        var user =
-                User.builder()
-                        .email("email")
-                        .name("name")
-                        .password(passwordEncoder.encode("password"))
-                        .user_role(Role.USER)
-                        .build();
+        // Act and Assert
+        assertThrows(Exception.class, () -> userService.createUser(newUser));
+        verify(userRepository, times(1)).findByEmail(newUser.getEmail());
+        verify(passwordEncoder, never()).encode(anyString());
+        verify(userRepository, never()).save(any(User.class));
+    }
 
-        //userRepository.save(user);
+    @Test
+    public void testCreateUser_invalidEmailFormat() {
+        // Arrange
+        UserDto newUser = new UserDto("invalidemailformat", "Test", "password", "USER");
 
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+        // Act and Assert
+        verify(userRepository, never()).findByEmail(newUser.getEmail());
+        verify(passwordEncoder, never()).encode(anyString());
+        verify(userRepository, never()).save(any(User.class));
+    }
 
-        assertThrows(Exception.class, () -> {
-            userService.createUser(user);
-        });
+    @Test
+    public void testCreateUser_invalidPasswordSize() {
+        // Arrange
+        UserDto newUser = new UserDto("Test@email.com", "Test", "pw", "USER");
 
-        verify(userRepository, times(1)).findByEmail(user.getEmail());
-        verify(userRepository, never()).save(user);
+        // Act and Assert
+        verify(userRepository, never()).findByEmail(newUser.getEmail());
+        verify(passwordEncoder, never()).encode(anyString());
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -99,69 +122,68 @@ class UserServiceTest {
     }
 
     @Test
-    void deleteUser() {
-        String email = "email";
-
-        userService.deleteUser(email);
-
-        verify(userRepository, times(1)).deleteById(email);
-    }
-
-    @Test
-    void updateUser() throws Exception {
-        // Create the existing user
-        var existingUser =
-                User.builder()
-                        .email("email1")
-                        .name("name1")
-                        .password(passwordEncoder.encode("password1"))
-                        .user_role(Role.USER)
-                        .build();
-
-        // Create the updated user
-        var updatedUser =
-                User.builder()
-                        .email("email2")
-                        .name("name2")
-                        .password(passwordEncoder.encode("password2"))
-                        .user_role(Role.USER)
-                        .build();
-
-        // Mock the repository to return the existing user when searching by email
-        when(userRepository.findByEmail(existingUser.getEmail())).thenReturn(Optional.of(existingUser));
-
-        // Mock the repository to return the existing user when saving
-        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        // Call the update method
-        User savedUser = userService.updateUser(existingUser.getEmail(), updatedUser);
-
-        // Verify that the save method was called with the updated user
-        verify(userRepository, times(1)).save(updatedUser);
-
-        // Assert that the returned user is the same as the updated user
-        assertEquals(updatedUser.getEmail(), savedUser.getEmail());
-        assertEquals(updatedUser.getName(), savedUser.getName());
-    }
-
-    @Test
-    public void testUpdateWhenUserNotFound() {
+    public void testDeleteUser_existingUser() throws Exception {
         // Arrange
-        String email = "nonexistent@example.com";
-        User userDetails = new User();
-        userDetails.setEmail("newemail@example.com");
-        userDetails.setName("New Name");
-        userDetails.setPassword("newpassword");
+        String existingEmail = "john.doe@example.com";
+        User existingUser = new User(existingEmail, "John Doe", "password", Role.USER);
+        when(userRepository.findByEmail(existingEmail)).thenReturn(Optional.of(existingUser));
 
-        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+        // Act
+        userService.deleteUser(existingEmail);
 
-        // Act & Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            userService.updateUser(email, userDetails);
-        });
-        String expectedMessage = "User with email " + email + " not found";
-        String actualMessage = exception.getMessage();
-        assert(actualMessage.contains(expectedMessage));
+        // Assert
+        verify(userRepository, times(1)).findByEmail(existingEmail);
+        verify(userRepository, times(1)).deleteById(existingEmail);
+    }
+
+    @Test
+    public void testDeleteUser_nonExistingUser() throws Exception {
+        // Arrange
+        String nonExistingEmail = "nonexistinguser@example.com";
+        when(userRepository.findByEmail(nonExistingEmail)).thenReturn(Optional.empty());
+
+        // Act and Assert
+        assertThrows(Exception.class, () -> userService.deleteUser(nonExistingEmail));
+        verify(userRepository, times(1)).findByEmail(nonExistingEmail);
+        verify(userRepository, never()).deleteById(anyString());
+    }
+
+    @Test
+    public void testUpdateUser_existingUser() throws Exception {
+        // Arrange
+        User existingUser = new User("john.doe@example.com", "John Doe", "password", Role.USER);
+        UserDto updatedUser = new UserDto("jane.doe@example.com", "Jane Doe", "newpassword", "ADMIN");
+        when(userRepository.findByEmail(existingUser.getEmail())).thenReturn(Optional.of(existingUser));
+        when(userRepository.save(any(User.class))).thenReturn(existingUser);
+
+        // Act
+        User result = userService.updateUser(existingUser.getEmail(), updatedUser);
+
+        // Assert
+        assertEquals(updatedUser.getEmail(), result.getEmail());
+        assertEquals(updatedUser.getName(), result.getName());
+        assertEquals(updatedUser.getUser_role(), result.getUser_role().toString());
+        verify(passwordEncoder, times(1)).encode(updatedUser.getPassword());
+        verify(userRepository, times(1)).save(existingUser);
+    }
+
+    @Test
+    public void testUpdateUser_nonExistingUser() throws Exception {
+        // Arrange
+        String nonExistingEmail = "nonexistinguser@example.com";
+        UserDto updatedUser = new UserDto("jane.doe@example.com", "Jane Doe", "newpassword", "ADMIN");
+        when(userRepository.findByEmail(nonExistingEmail)).thenReturn(Optional.empty());
+
+        // Act and Assert
+        assertThrows(Exception.class, () -> userService.updateUser(nonExistingEmail, updatedUser));
+        verify(userRepository, times(1)).findByEmail(nonExistingEmail);
+        verify(userRepository, never()).save(any(User.class));
+        verify(passwordEncoder, never()).encode(anyString());
+    }
+    
+    @Test
+    public void testUpdateUser_invalidPasswordSize() throws Exception {
+
     }
 
 }

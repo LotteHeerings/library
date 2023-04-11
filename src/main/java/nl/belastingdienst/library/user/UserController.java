@@ -24,12 +24,12 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{email}")
-    public void deleteUser(@PathVariable(value = "email") String email) {
+    public void deleteUser(@PathVariable(value = "email") String email) throws Exception {
         userService.deleteUser(email);
     }
 
     @PutMapping("/users/{email}")
-    public User updateUser(@PathVariable(value = "email") String email, @RequestBody User userDetails) throws Exception{
+    public User updateUser(@PathVariable(value = "email") String email, @RequestBody UserDto userDetails) throws Exception{
         return userService.updateUser(email, userDetails);
     }
 
