@@ -18,7 +18,6 @@ public class UserController {
         return userService.createUser(user);
     }
 
-
     @GetMapping("/users")
     public List<User> readUsers(){
         return userService.getAllUserTypes();

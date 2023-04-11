@@ -23,7 +23,7 @@ public class Book {
     @Column(name = "ISBN-13", nullable = false, unique = true)
     private Integer ISBN13;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "authors")
@@ -38,6 +38,6 @@ public class Book {
     @Column(name = "language")
     private String language;
 
-    @Column(name = "publication_date")
+    @Column(name = "publication_date", nullable = false)
     private String publication_date;
 }

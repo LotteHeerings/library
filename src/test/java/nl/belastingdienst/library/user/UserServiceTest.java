@@ -1,63 +1,148 @@
 package nl.belastingdienst.library.user;
 
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class UserServiceTest {
+class UserServiceTest {
 
-    @Mock UserRepository userRepository;
+    @Mock
+    private UserRepository userRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    @Mock
-    User user;
-
     @InjectMocks
-    private UserService userService = new UserService(userRepository, passwordEncoder);
+    private UserService userService;
 
-    @Test
-    public void testCreateUser() throws Exception {
-        // Create a new user to save
-        user.setEmail("testing@email.com");
-        user.setName("testing name");
-        user.setPassword("testingpassword");
-
-        // Call the createUser method with the user object
-        userService.createUser(user);
-
-        // Verify that the save method is called with the correct argument
-        verify(userRepository).save(user);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllUserTypes() {
-        // Create some test data
-        List<User> users = new ArrayList<>();
-        users.add(new User("testing1@email.com", "test 1", "password", Role.USER));
-        users.add(new User("testing2@email.com", "test 2", "password", Role.EMPLOYEE));
+    void createUser_success() throws Exception {
+        var user =
+                User.builder()
+                        .email("email")
+                        .name("name")
+                        .password(passwordEncoder.encode("password"))
+                        .user_role(Role.USER)
+                        .build();
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.save(user)).thenReturn(user);
 
-        // Configure the mock UserRepository to return the test data
-        when(userRepository.findAll()).thenReturn(users);
+        User savedUser = userService.createUser(user);
 
-        // Call the getAllUserTypes() method and verify the result
-        List<User> result = userService.getAllUserTypes();
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(users.size(), result.size());
-        Assertions.assertEquals(users, result);
+        assertEquals(user, savedUser);
+        verify(userRepository, times(1)).findByEmail(user.getEmail());
+        verify(userRepository, times(1)).save(user);
+    }
 
-        // Verify that the findAll() method of the mock UserRepository was called once
+    @Test
+    void createUser_duplicateEmail() {
+
+        var user =
+                User.builder()
+                        .email("email")
+                        .name("name")
+                        .password(passwordEncoder.encode("password"))
+                        .user_role(Role.USER)
+                        .build();
+
+        //userRepository.save(user);
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        assertThrows(Exception.class, () -> {
+            userService.createUser(user);
+        });
+
+        verify(userRepository, times(1)).findByEmail(user.getEmail());
+        verify(userRepository, never()).save(user);
+    }
+
+    @Test
+    void getAllUserTypes() {
+        var user1 =
+                User.builder()
+                        .email("email1")
+                        .name("name1")
+                        .password(passwordEncoder.encode("password1"))
+                        .user_role(Role.USER)
+                        .build();
+        var user2 =
+                User.builder()
+                        .email("email2")
+                        .name("name2")
+                        .password(passwordEncoder.encode("password2"))
+                        .user_role(Role.USER)
+                        .build();
+        List<User> expectedUsers = Arrays.asList(user1, user2);
+
+        when(userRepository.findAll()).thenReturn(expectedUsers);
+
+        List<User> actualUsers = userService.getAllUserTypes();
+
+        assertEquals(expectedUsers, actualUsers);
         verify(userRepository, times(1)).findAll();
     }
+
+    @Test
+    void deleteUser() {
+        String email = "email";
+
+        userService.deleteUser(email);
+
+        verify(userRepository, times(1)).deleteById(email);
+    }
+
+    @Test
+    void updateUser() {
+        // Create the existing user
+        var existingUser =
+                User.builder()
+                        .email("email1")
+                        .name("name1")
+                        .password(passwordEncoder.encode("password1"))
+                        .user_role(Role.USER)
+                        .build();
+
+        // Create the updated user
+        var updatedUser =
+                User.builder()
+                        .email("email2")
+                        .name("name2")
+                        .password(passwordEncoder.encode("password2"))
+                        .user_role(Role.USER)
+                        .build();
+
+        // Mock the repository to return the existing user when searching by email
+        when(userRepository.findByEmail(existingUser.getEmail())).thenReturn(Optional.of(existingUser));
+
+        // Mock the repository to return the existing user when saving
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Call the update method
+        User savedUser = userService.updateUser(existingUser.getEmail(), updatedUser);
+
+        // Verify that the save method was called with the updated user
+        verify(userRepository, times(1)).save(updatedUser);
+
+        // Assert that the returned user is the same as the updated user
+        assertEquals(updatedUser.getEmail(), savedUser.getEmail());
+        assertEquals(updatedUser.getName(), savedUser.getName());
+    }
+
+
 }
