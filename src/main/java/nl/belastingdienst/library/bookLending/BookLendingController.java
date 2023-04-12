@@ -19,6 +19,11 @@ public class BookLendingController {
         return bookLendingService.lendBook(bookLending);
     }
 
+    @GetMapping("/employee/allLentBooks")
+    public List<BookLending> allLentBooks(){
+        return bookLendingService.viewLentBooks();
+    }
+
     @GetMapping("/unavailableBooks")
     public ArrayList<ArrayList<String>> unavailableBooks() {
         return bookLendingService.viewLentBooks_withoutSensitiveData();
