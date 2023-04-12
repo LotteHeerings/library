@@ -1,12 +1,18 @@
 package nl.belastingdienst.library.bookLending;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import nl.belastingdienst.library.book.Book;
+import nl.belastingdienst.library.book.BookDto;
 import nl.belastingdienst.library.book.BookRepository;
+import nl.belastingdienst.library.config.JwtAuthenticationFilter;
+import nl.belastingdienst.library.config.JwtService;
 import nl.belastingdienst.library.user.UserRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +23,11 @@ public class BookLendingService {
     private final BookLendingRepository bookLendingRepository;
 
     private final BookRepository bookRepository;
+
+    private final JwtService jwtService;
+
+    @NonNull
+    HttpServletRequest request;
 
     public BookLending lendBook(BookLendingDto lendBook) throws Exception { //CREATE
         if (lendBook.getISBN13() == null) {
@@ -42,7 +53,31 @@ public class BookLendingService {
         return bookLendingRepository.findAll();
     }
 
-    public List<BookLending> viewOverDueBooks() {
+    public ArrayList<ArrayList<String>> viewLentBooks_withoutSensitiveData() {
+        List<BookLending> allLentBooks = viewLentBooks();
+
+        ArrayList<ArrayList<String>> allLentBooks_withOutSensitiveData = new ArrayList<>();
+        for (BookLending bookLending: allLentBooks) {
+            ArrayList<String> innerList = new ArrayList<>();
+            innerList.add(bookLending.getISBN13());
+            innerList.add(String.valueOf(bookLending.getHandOutDate()));
+            innerList.add(String.valueOf(bookLending.getReturnDate()));
+            allLentBooks_withOutSensitiveData.add(innerList);
+        }
+        return allLentBooks_withOutSensitiveData;
+    }
+
+    public List<BookLending> viewUsersLentBooks() { //READ
+        String authHeader = request.getHeader("Authorization"); // Header with JWT
+        String jwt = authHeader.substring(7);
+        String email = jwtService.extractEmailUser(jwt);
+
+        return viewLentBooks().stream()
+                .filter(bookLending -> bookLending.getEmail().equals(email))
+                .collect(Collectors.toList());
+    }
+
+    public List<BookLending> viewOverDueBooks() { //READ
         LocalDate now = LocalDate.now();
         return viewLentBooks().stream()
                 .filter(bookLending -> bookLending.getReturnDate().isBefore(now))
