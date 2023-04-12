@@ -27,7 +27,7 @@ public class BookLending {
     @Column(name = "return_before")
     private LocalDate returnDate;
 
-    @Column(name = "date_of_handout")
+    @Column(name = "date_of_hand_out")
     private LocalDate handOutDate;
 
 }
