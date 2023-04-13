@@ -14,7 +14,7 @@ public class BookService {
 
     public Book createBook(BookDto newBook) throws Exception{
         if (newBook.getISBN13() == null) {
-            throw new Exception("Id is null");
+            throw new Exception("Id/ISBN13 is null");
         }
         if (bookRepository.existsById(newBook.getISBN13())) {
             throw new Exception("Book is already registered");
@@ -61,7 +61,7 @@ public class BookService {
     }
 
     public Book updateBook (String ISBN13, BookDto bookDetails) throws Exception{
-        Book book = bookRepository.findById(ISBN13).orElseThrow(() -> new Exception("Book not found"));
+        Book book = bookRepository.findByISBN13(ISBN13).orElseThrow(() -> new Exception("Book not found"));
         book.setAuthors(bookDetails.getAuthors());
         book.setLanguage(bookDetails.getLanguage());
         book.setPublisher(bookDetails.getPublisher());

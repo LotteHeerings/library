@@ -1,5 +1,6 @@
-package nl.belastingdienst.library.user;
+package nl.belastingdienst.library;
 
+import nl.belastingdienst.library.user.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class UserServiceTest {
+class UserServiceTests {
 
     @Mock
     private UserRepository userRepository;
