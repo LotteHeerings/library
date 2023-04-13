@@ -23,12 +23,6 @@ public class BookLendingDto {
     private String email;
 
     @NotBlank
-    private String returnDate;
-
-    @NotBlank
-    private String handOutDate;
-
-    @NotBlank
     private String weeksOfLending;
 
 }

@@ -31,7 +31,7 @@ public class BookLendingService {
 
     public BookLending lendBook(BookLendingDto lendBook) throws Exception { //CREATE
         if (lendBook.getISBN13() == null) {
-            throw new Exception("ISBN is null");
+            throw new Exception("ISBN13 is null");
         } else if (lendBook.getEmail() == null) {
             throw new Exception("Email is null");
         } else if (!bookRepository.existsById(lendBook.getISBN13())) {
