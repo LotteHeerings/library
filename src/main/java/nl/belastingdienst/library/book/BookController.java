@@ -44,6 +44,7 @@ public class BookController {
 
     @PutMapping("/employee/books/{isbn13}")
     public Book updateBook(@PathVariable(name = "isbn13") String ISBN13, @RequestBody BookDto bookDetails) throws Exception {
+        System.out.println(bookDetails); //debug
         return bookService.updateBook(ISBN13, bookDetails);
     }
 }

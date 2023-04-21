@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -13,15 +14,16 @@ public class BookService {
     private final BookRepository bookRepository;
 
     public Book createBook(BookDto newBook) throws Exception{
-        if (newBook.getISBN13() == null) {
+        String ISBN13 = newBook.getIsbn();
+        if (ISBN13 == null) {
             throw new Exception("Id/ISBN13 is null");
         }
-        if (bookRepository.existsById(newBook.getISBN13())) {
+        if (bookRepository.findByISBN13(ISBN13).isPresent()) {
             throw new Exception("Book is already registered");
         }
 
         var book = Book.builder()
-                .ISBN13(newBook.getISBN13())
+                .ISBN13(ISBN13)
                 .title(newBook.getTitle())
                 .authors(newBook.getAuthors())
                 .publisher(newBook.getPublisher())
@@ -61,14 +63,20 @@ public class BookService {
     }
 
     public Book updateBook (String ISBN13, BookDto bookDetails) throws Exception{
-        Book book = bookRepository.findByISBN13(ISBN13).orElseThrow(() -> new Exception("Book not found"));
+        Optional<Book> bookOptional = bookRepository.findByISBN13(ISBN13);
+        if (bookOptional.isEmpty()) {
+            throw new Exception("ISBN13 of: " + ISBN13 + " not found");
+        }
+
+        Book book = bookOptional.get();
+
         book.setAuthors(bookDetails.getAuthors());
         book.setLanguage(bookDetails.getLanguage());
         book.setPublisher(bookDetails.getPublisher());
         book.setTitle(bookDetails.getTitle());
         book.setPublication_date(bookDetails.getPublication_date());
         book.setCover_path(bookDetails.getCover_path());
-        book.setPages(book.getPages());
+        book.setPages(Integer.parseInt(bookDetails.getPages()));
 
         return bookRepository.save(book);
     }

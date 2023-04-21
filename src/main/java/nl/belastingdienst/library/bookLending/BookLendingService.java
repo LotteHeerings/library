@@ -30,17 +30,18 @@ public class BookLendingService {
     HttpServletRequest request;
 
     public BookLending lendBook(BookLendingDto lendBook) throws Exception { //CREATE
-        if (lendBook.getISBN13() == null) {
+        String ISBN13 = lendBook.getIsbn();
+        if (ISBN13 == null) {
             throw new Exception("ISBN13 is null");
         } else if (lendBook.getEmail() == null) {
             throw new Exception("Email is null");
-        } else if (!bookRepository.existsById(lendBook.getISBN13())) {
+        } else if (!bookRepository.existsById(ISBN13)) {
             throw new Exception("Book is not registered");
         }
         LocalDate now = LocalDate.now();
 
         var lend = BookLending.builder()
-                .ISBN13(lendBook.getISBN13())
+                .ISBN13(ISBN13)
                 .email(lendBook.getEmail())
                 .handOutDate(now)
                 .returnDate(now.plusDays(Long.parseLong(lendBook.getWeeksOfLending())))

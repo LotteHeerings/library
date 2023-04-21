@@ -16,7 +16,7 @@ public class BookLendingDto {
 
     @NotBlank
     @Min(13)
-    private String ISBN13;
+    private String isbn;
 
     @NotBlank
     @Max(64)

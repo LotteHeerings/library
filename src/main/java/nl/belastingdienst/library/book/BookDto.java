@@ -3,21 +3,17 @@ package nl.belastingdienst.library.book;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDto {
-    @NotBlank
-    @Min(13)
-    private String ISBN13;
+    @NonNull
+    private String isbn;
 
-    @NotBlank
+    @NonNull
     @Max(64)
     private String title;
 
@@ -32,10 +28,10 @@ public class BookDto {
     @Max(2)
     private String language;
 
-    @NotBlank
+    @NonNull
     private String publication_date;
 
-    @NotBlank
+    @NonNull
     private String pages;
 
 }
