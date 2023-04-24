@@ -1,7 +1,6 @@
 package nl.belastingdienst.library.bookLending;
 
 import lombok.RequiredArgsConstructor;
-import nl.belastingdienst.library.book.Book;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

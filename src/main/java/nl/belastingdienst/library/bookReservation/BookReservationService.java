@@ -46,7 +46,7 @@ public class BookReservationService {
         bookReservationRepository.deleteById(id);
     }
 
-    //Delete reservation and transform it into a lending
+    //(Update) Delete reservation and transform it into a lending
     public BookLending pickUpReservation(Long id) throws Exception {
         Optional<BookReservation> optionalBookReservation = bookReservationRepository.findById(id);
         if (optionalBookReservation.isEmpty()) {
