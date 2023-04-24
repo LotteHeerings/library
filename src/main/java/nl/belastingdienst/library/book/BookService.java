@@ -17,8 +17,7 @@ public class BookService {
         String ISBN13 = newBook.getIsbn();
         if (ISBN13 == null) {
             throw new Exception("Id/ISBN13 is null");
-        }
-        if (bookRepository.findByISBN13(ISBN13).isPresent()) {
+        }else if (bookRepository.findByISBN13(ISBN13).isPresent()) {
             throw new Exception("Book is already registered");
         }
 
