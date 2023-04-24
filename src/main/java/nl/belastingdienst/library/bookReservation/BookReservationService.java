@@ -1,7 +1,6 @@
 package nl.belastingdienst.library.bookReservation;
 
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import nl.belastingdienst.library.book.BookRepository;
 import nl.belastingdienst.library.bookLending.BookLending;
 import nl.belastingdienst.library.bookLending.BookLendingRepository;
