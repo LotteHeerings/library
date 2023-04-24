@@ -23,8 +23,8 @@ public class BookReservationController {
         return bookReservationService.getAllReservations();
     }
 
-    @DeleteMapping("/reserveBook")
-    public void deleteReservation(@RequestBody Long id) {
+    @DeleteMapping("/reserveBook/{id}")
+    public void deleteReservation(@PathVariable(name = "id") Long id) {
         bookReservationService.deleteReservation(id);
     }
 

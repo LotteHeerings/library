@@ -61,7 +61,7 @@ public class BookReservationService {
                 .ISBN13(bookReservation.getISBN13())
                 .email(bookReservation.getEmail())
                 .handOutDate(now)
-                .returnDate(now.plusDays(bookReservation.getWeeksReserved()))
+                .returnDate(now.plusWeeks(bookReservation.getWeeksReserved()))
                 .build();
 
         bookReservationRepository.deleteById(id);
