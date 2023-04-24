@@ -37,6 +37,8 @@ public class BookLendingService {
             throw new Exception("Email is null");
         } else if (!bookRepository.existsById(ISBN13)) {
             throw new Exception("Book is not registered");
+        } else if (bookLendingRepository.existsById(ISBN13)) {
+            throw new Exception("Book is still on somebody else their name");
         }
         LocalDate now = LocalDate.now();
 
