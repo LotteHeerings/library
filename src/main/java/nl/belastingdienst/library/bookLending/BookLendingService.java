@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import nl.belastingdienst.library.book.Book;
 import nl.belastingdienst.library.book.BookDto;
 import nl.belastingdienst.library.book.BookRepository;
+import nl.belastingdienst.library.bookLendingArchive.BookLendingArchive;
+import nl.belastingdienst.library.bookLendingArchive.BookLendingArchiveService;
 import nl.belastingdienst.library.config.JwtAuthenticationFilter;
 import nl.belastingdienst.library.config.JwtService;
+import nl.belastingdienst.library.damage.DamageDto;
 import nl.belastingdienst.library.user.UserRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,8 @@ public class BookLendingService {
     private final BookLendingRepository bookLendingRepository;
 
     private final BookRepository bookRepository;
+
+    private final BookLendingArchiveService bookLendingArchiveService;
 
     private final JwtService jwtService;
 
@@ -87,8 +92,19 @@ public class BookLendingService {
                 .collect(Collectors.toList());
     }
 
-    public void handInLentBook(String ISBN13) { //DELETE
+    public BookLendingArchive handInLentBook(String ISBN13, DamageDto damageDto) { //DELETE
+        boolean damage;
+        if (damageDto != null) {
+            damage = true;
+        } else {
+            damage = false;
+        }
+
+        BookLending bookLending = bookLendingRepository.findById(ISBN13).get();
+
         bookLendingRepository.deleteById(ISBN13);
+
+        return bookLendingArchiveService.archiveBookLending(bookLending, damage);
     }
 
     public BookLending extendLentBook(String ISBN13, Long extensionInDays) throws Exception { //UPDATE

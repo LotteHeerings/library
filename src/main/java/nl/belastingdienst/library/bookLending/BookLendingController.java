@@ -1,6 +1,8 @@
 package nl.belastingdienst.library.bookLending;
 
 import lombok.RequiredArgsConstructor;
+import nl.belastingdienst.library.bookLendingArchive.BookLendingArchive;
+import nl.belastingdienst.library.damage.DamageDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,9 +40,9 @@ public class BookLendingController {
         return bookLendingService.viewOverDueBooks();
     }
 
-    @DeleteMapping("/employee/handInBook/{isbn13}")
-    public void handInBookLending(@PathVariable(name = "isbn13") String ISBN13) {
-        bookLendingService.handInLentBook(ISBN13);
+    @PostMapping("/employee/handInBook/{isbn13}")
+    public BookLendingArchive handInBookLending(@PathVariable(name = "isbn13") String ISBN13, @RequestBody DamageDto damageDto) {
+        return bookLendingService.handInLentBook(ISBN13, damageDto);
     }
 
     @PutMapping("/employee/extendBookLending/{isbn13}/{extensionInDays}")
