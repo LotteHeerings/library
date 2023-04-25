@@ -41,5 +41,5 @@ public class BookLendingArchiveService {
     public void deleteArchivedBookLending(Long id){
         bookLendingArchiveRepository.deleteById(id);
     }
-    
+
 }
