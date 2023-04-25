@@ -38,7 +38,7 @@ public class BookController {
     }
 
     @DeleteMapping("/employee/books/{isbn13}")
-    public void deleteBooks(@PathVariable(name = "isbn13") String ISBN13) {
+    public void deleteBooks(@PathVariable(name = "isbn13") String ISBN13) throws Exception {
         bookService.deleteBook(ISBN13);
     }
 

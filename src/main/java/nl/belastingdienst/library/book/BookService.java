@@ -57,7 +57,10 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteBook(String ISBN13){
+    public void deleteBook(String ISBN13) throws Exception{
+        if (bookRepository.findById(ISBN13).isEmpty()) {
+            throw new Exception("Book doesn't exist already");
+        }
         bookRepository.deleteById(ISBN13);
     }
 
