@@ -13,16 +13,8 @@ public class BookLendingArchiveService {
 
     private final BookLendingArchiveRepository bookLendingArchiveRepository;
 
-    public BookLendingArchive archiveBookLending(BookLending bookLending, boolean damage) {
+    public BookLendingArchive archiveBookLending(BookLending bookLending) {
         LocalDate now = LocalDate.now();
-
-        if (now.isAfter(bookLending.getReturnDate())){
-            //Add damage late hand-in
-        }
-
-        if (damage){
-            //Add damage service calls for other things
-        }
 
         var bookLendingArchive = BookLendingArchive.builder()
                 .ISBN13(bookLending.getISBN13())

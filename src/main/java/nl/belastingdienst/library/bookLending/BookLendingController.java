@@ -45,8 +45,8 @@ public class BookLendingController {
     }
 
     @PostMapping("/employee/handInBook/{isbn13}")
-    public BookLendingArchive handInBookLending(@PathVariable(name = "isbn13") String ISBN13, @RequestBody DamageDto damageDto) {
-        return bookLendingService.handInLentBook(ISBN13, damageDto);
+    public BookLendingArchive handInBookLending(@PathVariable(name = "isbn13") String ISBN13) {
+        return bookLendingService.handInLentBook(ISBN13);
     }
 
     @PutMapping("/employee/extendBookLending/{isbn13}/{extensionInDays}")

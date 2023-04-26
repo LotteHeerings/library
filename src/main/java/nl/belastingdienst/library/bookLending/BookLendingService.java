@@ -92,21 +92,12 @@ public class BookLendingService {
                 .collect(Collectors.toList());
     }
 
-    public BookLendingArchive handInLentBook(String ISBN13, DamageDto damageDto) { //DELETE
-        boolean damage;
-        if (damageDto != null) {
-            damage = true;
-        } else {
-            damage = false;
-        }
-
-
-
+    public BookLendingArchive handInLentBook(String ISBN13) { //DELETE
         BookLending bookLending = bookLendingRepository.findById(ISBN13).get();
 
         bookLendingRepository.deleteById(ISBN13);
 
-        return bookLendingArchiveService.archiveBookLending(bookLending, damage);
+        return bookLendingArchiveService.archiveBookLending(bookLending);
     }
 
     public BookLending extendLentBook(String ISBN13, Long extensionInDays) throws Exception { //UPDATE
