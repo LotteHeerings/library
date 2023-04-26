@@ -36,7 +36,7 @@ public class DamageController {
     @PutMapping("/damages/{id}")
     public Damage updateDamageIncident(@PathVariable(name = "id") Long id, @RequestBody DamageDto damageDetails)
             throws Exception {
-        damageService.updateDamageIncident(id, damageDetails);
+        return damageService.updateDamageIncident(id, damageDetails);
     }
 
     @PatchMapping("/damages/{id}")
