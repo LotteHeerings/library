@@ -100,6 +100,8 @@ public class BookLendingService {
             damage = false;
         }
 
+
+
         BookLending bookLending = bookLendingRepository.findById(ISBN13).get();
 
         bookLendingRepository.deleteById(ISBN13);

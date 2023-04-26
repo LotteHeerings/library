@@ -2,7 +2,9 @@ package nl.belastingdienst.library.bookLending;
 
 import lombok.RequiredArgsConstructor;
 import nl.belastingdienst.library.bookLendingArchive.BookLendingArchive;
+import nl.belastingdienst.library.bookLendingArchive.BookLendingArchiveService;
 import nl.belastingdienst.library.damage.DamageDto;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 public class BookLendingController {
 
     private final BookLendingService bookLendingService;
+
+    private final BookLendingArchiveService bookLendingArchiveService;
 
     @PostMapping("/employee/lendOutBook")
     public BookLending lendOutBook(@RequestBody BookLendingDto bookLending) throws Exception {
@@ -51,5 +55,16 @@ public class BookLendingController {
             @PathVariable(name = "extensionInDays") long extensionInDays)
     throws Exception{
         return bookLendingService.extendLentBook(ISBN13, extensionInDays);
+    }
+
+    //Archive endpoints
+    @GetMapping("/employee/archivedBookLendings")
+    public List<BookLendingArchive> readArchivedBookLendings() {
+        return bookLendingArchiveService.viewAllArchivedBookLendings();
+    }
+
+    @DeleteMapping("/admin/archivedBookLendings/{id}")
+    public void deleteArchivedBookLending(@PathVariable(name = "id") Long id) {
+        bookLendingArchiveService.deleteArchivedBookLending(id);
     }
 }
