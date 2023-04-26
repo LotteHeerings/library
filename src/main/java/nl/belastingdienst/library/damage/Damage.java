@@ -16,17 +16,17 @@ public class Damage {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "archived_book_lending_id")
-    private int idBookLendingArchive;
+    private Long idBookLendingArchive;
 
     @Column(name = "type_of_damage")
     private String typeOfDamage;
 
     @Column(name = "cost_of_damage")
-    private int costOfDamage;
+    private Integer costOfDamage;
 
     @Column(name = "paid")
-    private boolean paid;
+    private Boolean paid;
 }
