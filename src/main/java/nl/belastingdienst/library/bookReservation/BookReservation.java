@@ -18,7 +18,7 @@ public class BookReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "ISBN13")
     private String ISBN13;
@@ -30,5 +30,5 @@ public class BookReservation {
     private LocalDate reservationDate;
 
     @Column(name = "weeks_reserved")
-    private int weeksReserved;
+    private Integer weeksReserved;
 }

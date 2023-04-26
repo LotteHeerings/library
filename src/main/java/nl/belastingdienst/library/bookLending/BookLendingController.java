@@ -52,7 +52,7 @@ public class BookLendingController {
     @PutMapping("/employee/extendBookLending/{isbn13}/{extensionInDays}")
     public BookLending extendBookLending(
             @PathVariable(name = "isbn13") String ISBN13,
-            @PathVariable(name = "extensionInDays") long extensionInDays)
+            @PathVariable(name = "extensionInDays") Long extensionInDays)
     throws Exception{
         return bookLendingService.extendLentBook(ISBN13, extensionInDays);
     }
