@@ -49,7 +49,7 @@ public class BookLendingController {
         return bookLendingService.handInLentBook(ISBN13);
     }
 
-    @PutMapping("/employee/extendBookLending/{isbn13}/{extensionInDays}")
+    @PatchMapping("/employee/extendBookLending/{isbn13}/{extensionInDays}")
     public BookLending extendBookLending(
             @PathVariable(name = "isbn13") String ISBN13,
             @PathVariable(name = "extensionInDays") Long extensionInDays)
