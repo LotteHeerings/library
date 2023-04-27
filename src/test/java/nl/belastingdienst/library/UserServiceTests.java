@@ -15,6 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+
 class UserServiceTests {
 
     @Mock
@@ -97,7 +98,8 @@ class UserServiceTests {
     }
 
     @Test
-    void getAllUserTypes() {
+    public void getAllUserTypes() {
+        // Arrange
         var user1 =
                 User.builder()
                         .email("email1")
@@ -116,8 +118,10 @@ class UserServiceTests {
 
         when(userRepository.findAll()).thenReturn(expectedUsers);
 
+        // Act
         List<User> actualUsers = userService.getAllUserTypes();
 
+        // Assert
         assertEquals(expectedUsers, actualUsers);
         verify(userRepository, times(1)).findAll();
     }
@@ -184,6 +188,16 @@ class UserServiceTests {
 
     @Test
     public void testUpdateUser_invalidPasswordSize() throws Exception {
+        // Arrange
+        User existingUser = new User("john.doe@example.com", "John Doe", "password", Role.USER);
+        UserDto updatedUser = new UserDto("jane.doe@example.com", "Jane Doe", "bad", "ADMIN");
+        when(userRepository.findByEmail(existingUser.getEmail())).thenReturn(Optional.of(existingUser));
+        when(userRepository.save(any(User.class))).thenReturn(existingUser);
+
+        // Act and assert
+        assertThrows(Exception.class, () -> userService.updateUser(existingUser.getEmail(), updatedUser));
+        verify(userRepository, never()).save(any(User.class));
+        verify(passwordEncoder, never()).encode(anyString());
 
     }
 

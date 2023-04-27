@@ -44,6 +44,10 @@ public class UserService {
     }
 
     public User updateUser(String email, UserDto userDetails) throws Exception {
+        if (userDetails.getPassword().length() < 5) {
+            throw new Exception("Password too short");
+        }
+
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isEmpty()) {
             throw new Exception("User with email " + email + " not found");
