@@ -1,9 +1,14 @@
 package nl.belastingdienst.library.bookReservation;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import nl.belastingdienst.library.book.Book;
 import nl.belastingdienst.library.book.BookRepository;
 import nl.belastingdienst.library.bookLending.BookLending;
 import nl.belastingdienst.library.bookLending.BookLendingRepository;
+import nl.belastingdienst.library.config.JwtService;
+import nl.belastingdienst.library.user.Role;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,12 +24,19 @@ public class BookReservationService {
     private final BookLendingRepository bookLendingRepository;
     private final BookReservationRepository bookReservationRepository;
 
+    private final JwtService jwtService;
+
+    @NonNull
+    HttpServletRequest request;
+
     public BookReservation createBookReservation(BookReservationDto newBookReservation) throws Exception{
         String ISBN13 = newBookReservation.getIsbn();
         if (ISBN13 == null) {
             throw new Exception("ISBN13 is null");
         }else if (bookRepository.findByISBN13(ISBN13).isEmpty()) {
             throw new Exception("Book does not exist");
+        } else if (bookReservationRepository.findByISBN13(ISBN13).isPresent()) {
+            throw new Exception("Book is already reserved");
         }
 
         var bookReservation = BookReservation.builder()
@@ -42,7 +54,17 @@ public class BookReservationService {
     }
 
     //Delete reservation
-    public void deleteReservation(Long id) {
+    public void deleteReservation(Long id) throws Exception {
+        String authHeader = request.getHeader("Authorization"); // Header with JWT
+        String jwt = authHeader.substring(7);
+        String email = jwtService.extractEmailUser(jwt);
+
+        BookReservation bookReservation = bookReservationRepository.findById(id).get();
+
+        if (bookReservation.getEmail() != email) {
+            throw new Exception("This is not your reservation");
+        }
+
         bookReservationRepository.deleteById(id);
     }
 
@@ -54,6 +76,12 @@ public class BookReservationService {
         }
 
         BookReservation bookReservation = optionalBookReservation.get();
+
+        Optional<BookLending> optionalBookLending = bookLendingRepository.findById(bookReservation.getISBN13());
+
+        if (optionalBookLending.isPresent()) {
+            throw new Exception("This book is still registered as handed out");
+        }
 
         LocalDate now = LocalDate.now();
 

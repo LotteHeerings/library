@@ -2,15 +2,10 @@ package nl.belastingdienst.library.bookLending;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import nl.belastingdienst.library.book.Book;
-import nl.belastingdienst.library.book.BookDto;
 import nl.belastingdienst.library.book.BookRepository;
 import nl.belastingdienst.library.bookLendingArchive.BookLendingArchive;
 import nl.belastingdienst.library.bookLendingArchive.BookLendingArchiveService;
-import nl.belastingdienst.library.config.JwtAuthenticationFilter;
 import nl.belastingdienst.library.config.JwtService;
-import nl.belastingdienst.library.damage.DamageDto;
-import nl.belastingdienst.library.user.UserRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 

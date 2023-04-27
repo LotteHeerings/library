@@ -24,7 +24,7 @@ public class BookReservationController {
     }
 
     @DeleteMapping("/reserveBook/{id}")
-    public void deleteReservation(@PathVariable(name = "id") Long id) {
+    public void deleteReservation(@PathVariable(name = "id") Long id) throws Exception {
         bookReservationService.deleteReservation(id);
     }
 
