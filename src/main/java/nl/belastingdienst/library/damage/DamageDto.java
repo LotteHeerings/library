@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class DamageDto {
 
     @NotBlank
-    @Max(64)
+    @Max(128)
     private String typeOfDamage;
 
     @NotBlank
