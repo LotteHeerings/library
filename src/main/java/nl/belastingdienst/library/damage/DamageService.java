@@ -13,6 +13,11 @@ public class DamageService {
 
     private final DamageRepository damageRepository;
 
+    /** Creates a user.
+     * @param idBookLendingArchive The id of the specific BookLending this damage entails.
+     * @param damageDto A DamageDto containing all the incident's details.
+     * @return A Damage in JSON format with all the details.
+     */
     public Damage createDamageIncident(Long idBookLendingArchive,DamageDto damageDto){
         var damage = Damage.builder()
                 .idBookLendingArchive(idBookLendingArchive)

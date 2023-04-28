@@ -1,0 +1,268 @@
+{
+	"info": {
+		"_postman_id": "f9fd20b5-887a-4df0-82dd-8a50dabe7bc2",
+		"name": "Lending Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25988674",
+		"_collection_link": "https://www.postman.com/lotteheeringsnovi/workspace/spring-boot-rest-api-workspace/collection/25988674-f9fd20b5-887a-4df0-82dd-8a50dabe7bc2?action=share&creator=25988674&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Create BookLending /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MDU5NDgsImV4cCI6MTY4MjU5MjM0OH0.P94d3F7aXgXbM5Kj6F8f0eUtsxsZ3XO2j00XQARkNGs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"isbn\":\"123\",\n    \"email\":\"test@email.com\",\n    \"weeksOfLending\":\"2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/employee/lendOutBook",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"lendOutBook"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read all lent Books /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MTM2OTYsImV4cCI6MTY4MjYwMDA5Nn0.QfcGBnroIDHt1KujQmN7-gL49MvDMRH2tFuEaGH8zfQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/allLentBooks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"allLentBooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read unavailable Books /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MDU5NDgsImV4cCI6MTY4MjU5MjM0OH0.P94d3F7aXgXbM5Kj6F8f0eUtsxsZ3XO2j00XQARkNGs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/unavailableBooks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"unavailableBooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read User's lent Books /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MDU5NDgsImV4cCI6MTY4MjU5MjM0OH0.P94d3F7aXgXbM5Kj6F8f0eUtsxsZ3XO2j00XQARkNGs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/myLentBooks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"myLentBooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read due Books /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MDU5NDgsImV4cCI6MTY4MjU5MjM0OH0.P94d3F7aXgXbM5Kj6F8f0eUtsxsZ3XO2j00XQARkNGs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/overdueBooks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"overdueBooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update extension Book /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MTAwODAsImV4cCI6MTY4MjU5NjQ4MH0.3YCUokfk2Irgr5IJ-432AGQAT1uhKR-3ZL7ExSG73EU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/extendBookLending/9781665935616/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"extendBookLending",
+						"9781665935616",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete/hand-in lent Book /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MTI0MjAsImV4cCI6MTY4MjU5ODgyMH0.OigFB24KIk5MG23gSmRneHDoJuK9X95_J0vbhPRh3Sg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/handInBook/9782362315053",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"handInBook",
+						"9782362315053"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODEzMDgwMjgsImV4cCI6MTY4MTM5NDQyOH0.ygXOo-8A-OGVfFRfhnCw2LtTgsHsR8SIVSsigULNha8",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "9c88f05a-dc95-402c-819a-503e57ef7ea6",
+		"name": "Archived Lending Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25988674",
+		"_collection_link": "https://www.postman.com/lotteheeringsnovi/workspace/spring-boot-rest-api-workspace/collection/25988674-9c88f05a-dc95-402c-819a-503e57ef7ea6?action=share&creator=25988674&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Read ArchivedBookLendings /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MDU5NDgsImV4cCI6MTY4MjU5MjM0OH0.P94d3F7aXgXbM5Kj6F8f0eUtsxsZ3XO2j00XQARkNGs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/archivedBookLendings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"archivedBookLendings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete ArchivedBookLending /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1ODE2MzgsImV4cCI6MTY4MjY2ODAzOH0.U1ffTL_3SszHTLVW6AhBTP3vHqP6fHEjgZTLFQDZms0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/archivedBookLendings/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"archivedBookLendings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

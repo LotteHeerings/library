@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "182ea9d9-8afa-4cbb-992a-1a8eb8c9ab18",
+		"name": "Damage Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25988674",
+		"_collection_link": "https://www.postman.com/lotteheeringsnovi/workspace/spring-boot-rest-api-workspace/collection/25988674-182ea9d9-8afa-4cbb-992a-1a8eb8c9ab18?action=share&creator=25988674&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Create Damage incident /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MTM2OTYsImV4cCI6MTY4MjYwMDA5Nn0.QfcGBnroIDHt1KujQmN7-gL49MvDMRH2tFuEaGH8zfQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"typeOfDamage\":\"Was handed in too early\",\n    \"costOfDamage\":\"69\",\n    \"paid\":\"false\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/employee/damages/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"damages",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read all Damages /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MTM2OTYsImV4cCI6MTY4MjYwMDA5Nn0.QfcGBnroIDHt1KujQmN7-gL49MvDMRH2tFuEaGH8zfQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/damages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"damages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read unpaid Damages /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MTM2OTYsImV4cCI6MTY4MjYwMDA5Nn0.QfcGBnroIDHt1KujQmN7-gL49MvDMRH2tFuEaGH8zfQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/unpaidDamages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"unpaidDamages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Damage incident /W",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI1MTM2OTYsImV4cCI6MTY4MjYwMDA5Nn0.QfcGBnroIDHt1KujQmN7-gL49MvDMRH2tFuEaGH8zfQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/damages/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"damages",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update whole Damage incident /W",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/damages/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"damages",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Damage incident to paid /W",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employee/damages/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employee",
+						"damages",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2ODI2NzgwMzgsImV4cCI6MTY4MTA2MTQ3MH0.dCo53mKB4q7CxpxX1XETKeuUazlhU1hgCnaVyO9r4p8",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
